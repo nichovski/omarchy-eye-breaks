@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "nichovski.eye-breaks",
+  "name": "Eye Breaks",
+  "version": "0.1.0",
+  "author": "nichovski",
+  "license": "MIT",
+  "description": "20-20-20 eye breaks: after 20 minutes of screen time the screens dim for 20 seconds so you look far away. Adds a water reminder every hour.",
+  "kinds": [
+    "service",
+    "overlay",
+    "bar-widget"
+  ],
+  "keepLoaded": true,
+  "entryPoints": {
+    "service": "Service.qml",
+    "overlay": "Overlay.qml",
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Eye Breaks",
+    "description": "Minutes until the next 20-20-20 eye break. Click to pause.",
+    "category": "Wellbeing",
+    "allowMultiple": false,
+    "defaultSection": "left"
+  }
+}
