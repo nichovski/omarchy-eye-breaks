@@ -8,6 +8,8 @@ Staring at a screen all day strains your eyes and gives you headaches. The
 your screens dim for 20 seconds with a countdown, then go back to normal by
 themselves.
 
+![The eye break screen](preview.png)
+
 ## Install
 
 ```bash
