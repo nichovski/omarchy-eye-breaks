@@ -24,6 +24,16 @@ Item {
   property real openedAtMs: 0
 
   readonly property int secondsLeft: Math.max(0, workSeconds - activeSeconds)
+  // Replacement bars (like the menubar manager) give widgets no service access,
+  // so the bar widget reads this file instead.
+  readonly property string statusPath: Quickshell.env("HOME") + "/.local/state/eye-breaks/status.json"
+  readonly property string barStatus: JSON.stringify({
+    minutesLeft: Math.ceil(secondsLeft / 60),
+    paused: paused,
+    breakOpen: breakOpen
+  })
+  onBarStatusChanged: if (statusReady) statusFile.setText(barStatus + "\n")
+  property bool statusReady: false
 
   function workoutBreakOpen() {
     var workout = root.shell ? root.shell.serviceFor("nichovski.workout-breaks") : null
@@ -80,6 +90,24 @@ Item {
       breakOpen: root.breakOpen,
       idle: idleMonitor.isIdle
     })
+  }
+
+  FileView {
+    id: statusFile
+    path: root.statusPath
+    atomicWrites: true
+    printErrors: false
+  }
+
+  Component.onCompleted: dirMaker.running = true
+
+  Process {
+    id: dirMaker
+    command: ["mkdir", "-p", Quickshell.env("HOME") + "/.local/state/eye-breaks"]
+    onExited: {
+      root.statusReady = true
+      statusFile.setText(root.barStatus + "\n")
+    }
   }
 
   IdleMonitor {
