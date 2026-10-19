@@ -35,11 +35,6 @@ Item {
   onBarStatusChanged: if (statusReady) statusFile.setText(barStatus + "\n")
   property bool statusReady: false
 
-  function workoutBreakOpen() {
-    var workout = root.shell ? root.shell.serviceFor("nichovski.workout-breaks") : null
-    return !!workout && workout.breakOpen === true
-  }
-
   function openBreak() {
     if (root.breakOpen) return "break already open"
     var payload = { seconds: root.breakSeconds, water: (root.breaksDone + 1) % root.waterEvery === 0 }
@@ -71,8 +66,8 @@ Item {
       }
       return
     }
-    // Away from the screen or moving in a workout break: the eyes are resting.
-    if (idleMonitor.isIdle || workoutBreakOpen()) {
+    // Away from the screen: the eyes are resting.
+    if (idleMonitor.isIdle) {
       root.activeSeconds = 0
       return
     }
